@@ -1,4 +1,4 @@
-const {test} = require('@playwright/test')
+const {test, expect} = require('@playwright/test')
 
 test('Register and Login', async({page})=>{
     await page.goto('https://rahulshettyacademy.com/client/');
@@ -16,11 +16,16 @@ test('Register and Login', async({page})=>{
     await page.locator('.text-reset').click()
     await page.locator('#userEmail').fill('2850542@gmail.com')
     await page.locator('#userPassword').fill('Password121!')
-    await page.locator('#login').click()
 
-    const addidas =  await page.locator('.card-body b').nth(0).textContent()
+    //race condition
+    await Promise.all([
+         page.waitForSelector('.card-body b'),
+         page.locator('#login').click()
+    ])
     
-    console.log(addidas)
+    
+    const titles = await page.locator('.card-body b').allTextContents();
+    console.log(titles)
 
 })
 
