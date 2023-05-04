@@ -61,15 +61,36 @@ test.only('E2E flow', async({page})=>{
     await page.locator('[class="input txt"]').first().fill('1111')
     await page.locator('[class="input txt"]').last().fill('mohat')
     await page.locator('[name="coupon"]').type('coupon1111')
-    // await page.locator('[type="submit"]').click()
+    
     await page.locator('[placeholder="Select Country"]').type('ind',{delay:100})
   
     await page.locator('[class="ta-item list-group-item ng-star-inserted"]').nth(1).click()
 
     await page.locator('[class="btnn action__submit ng-star-inserted"]').click()
     await page.waitForSelector('h1')
+   
+
+    const productID = await page.locator('[class="ng-star-inserted"]').nth(2).textContent()
+
+    console.log(productID)
+
+    await page.locator('[routerlink*="/myorders"]').first().click()
+
+    await page.locator('tbody').waitFor()
+
+    const orderTable = await page.locator('tbody tr')
 
 
 
-  
+for(let i=0; i< await orderTable.count(); ++i){
+   const orderIDRow = await orderTable.nth(i).locator('th').textContent()
+
+    if(productID.includes(orderIDRow)){
+        await orderTable.nth(i).locator('button').first().click()
+        break;
+    }
+}
+ const orderSummary = await page.locator('[class="col-text -main"]').textContent()
+ await expect(productID.includes(orderSummary)).toBeTruthy()
+
 })

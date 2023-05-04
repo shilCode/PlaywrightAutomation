@@ -6,8 +6,7 @@
     "@playwright/test": "^1.33.0"
   },
   "scripts": {
-    "test":"npx playwright test",
-    "test c":"npx playwright test ClientApp.spec.js"
+    "test":"npx playwright test MoreValidations.spec.js"
 
   }
 }
