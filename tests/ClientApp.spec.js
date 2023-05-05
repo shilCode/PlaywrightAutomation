@@ -1,6 +1,6 @@
 const {test, expect} = require('@playwright/test')
 
-test('Register and Login', async({page})=>{
+test.only('Register and Login', async({page})=>{
     await page.goto('https://rahulshettyacademy.com/client/');
     await page.locator('.text-reset').click()
     await page.locator('#firstName').fill('Mohat')
@@ -30,7 +30,7 @@ test('Register and Login', async({page})=>{
 })
 
 
-test.only('E2E flow', async({page})=>{
+test('E2E flow', async({page})=>{
     await page.goto('https://rahulshettyacademy.com/client/');
     await page.locator('#userEmail').fill('2850542@gmail.com')
     await page.locator('#userPassword').fill('Password121!')
