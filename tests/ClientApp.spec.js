@@ -1,6 +1,6 @@
 const {test, expect} = require('@playwright/test')
 
-test.only('Register and Login', async({page})=>{
+test('Register and Login', async({page})=>{
     await page.goto('https://rahulshettyacademy.com/client/');
     await page.locator('.text-reset').click()
     await page.locator('#firstName').fill('Mohat')

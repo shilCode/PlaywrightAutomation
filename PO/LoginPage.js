@@ -27,6 +27,18 @@ class LoginPage{
         await this.page.waitForLoadState('networkidle');
     }
 
+    async waitforDashboardPageLoad(){
+        await Promise.all([
+            this.page.waitForSelector('.card-body b'),
+            this.page.locator('#login').click()
+       ])
+    }
+
+    async printProductsinConsole(){
+        const titles = await this.page.locator('.card-body b').allTextContents();
+        console.log(titles)
+    }
+
    
 }
 

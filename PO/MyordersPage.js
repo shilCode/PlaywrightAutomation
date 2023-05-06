@@ -13,16 +13,24 @@ class MyordersPage{
         
     }
 
-    async findMyorder(){
+    async findMyorder(productId){
         for (let i = 0; i < await this.orderTable.count(); ++i) {
             const orderIDRow = await this.orderTable.nth(i).locator('th').textContent()
     
-            if (this.checkoutPage.productId.includes(orderIDRow)) {
+            if (productId.includes(orderIDRow)) {
                 await this.orderTable.nth(i).locator('button').first().click()
                 break;
             }
         }
     }
+
+    async orderSummary(productID){
+        const orderSummary = await page.locator('[class="col-text -main"]').textContent()
+        await expect(productID.includes(orderSummary)).toBeTruthy()
+    }
+
+
+
 }
 
 module.exports = {MyordersPage,CheckoutPage}
