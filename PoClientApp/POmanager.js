@@ -1,8 +1,8 @@
-const { LoginPage } = require('../PO/LoginPage')
-const { DashBoard } = require('../PO/DashboardPage')
-const { AddtoCart } = require('../PO/AddtoCart')
-const { CheckoutPage } = require('../PO/CheckoutPage')
-const { MyordersPage } = require('../PO/MyordersPage')
+const { LoginPage } = require('./LoginPage')
+const { DashBoard } = require('./DashboardPage')
+const { AddtoCart } = require('./AddtoCart')
+const { CheckoutPage } = require('./CheckoutPage')
+const { MyordersPage } = require('./MyordersPage')
 
 class POmanager{
     constructor(page){

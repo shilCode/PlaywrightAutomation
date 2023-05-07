@@ -1,6 +1,10 @@
 const { test, expect } = require('@playwright/test')
 
 test('E2E test of Doctors appointment', async({page})=>{
+
+    //write basic code - done
+    //write assertions
+    //implement PO
     await page.goto('https://katalon-demo-cura.herokuapp.com/')
 
     await page.locator('[id="btn-make-appointment"]').click()
