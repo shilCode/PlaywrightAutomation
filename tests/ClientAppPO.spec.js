@@ -1,5 +1,5 @@
 const { test, expect } = require('@playwright/test')
-const {POmanager} = require('../PO/POmanager')
+const {POmanager} = require('../PoClientApp/POmanager')
 
 test('Register and Login', async ({ page }) => {
     const poManager = new POmanager(page);
