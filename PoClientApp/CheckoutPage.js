@@ -2,6 +2,7 @@ class CheckoutPage{
 
     constructor(page){
         this.page = page;
+        
         this.cvvCode = page.locator('[class="input txt"]');
         this.fillName = page.locator('[class="input txt"]')
         this.coupon = page.locator('[name="coupon"]')

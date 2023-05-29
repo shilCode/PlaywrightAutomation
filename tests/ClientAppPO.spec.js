@@ -59,3 +59,40 @@ test('E2E flow', async ({ page }) => {
     expect(myordersPage.orderSummary).toBeTruthy()
 
 })
+
+test.only('Local storage test login',async({browser})=>{
+ 
+
+
+  const context = await browser.newContext({
+    storageState:'./auth.json'
+  });
+  const page = await context.newPage();
+
+  const poManager = new POmanager(page);
+  const loginPage = poManager.getLoginPage();
+  const addtoCart = poManager.getaddtoCart();
+  const checkoutPage = poManager.getcheckoutPage();
+  const myordersPage = poManager.getmyordersPage();
+  const dashboard = poManager.getdashBoardPage();
+
+  await loginPage.goTo()
+
+  
+  await dashboard.navigateToCart.click()
+  await myordersPage.checkOut.click()
+  await checkoutPage.cvvCode.first().fill('1111')
+  await checkoutPage.fillName.last().fill('mohat')
+  await checkoutPage.coupon.type('coupon1111')
+  await checkoutPage.country.type('ind', { delay: 100 })
+  await checkoutPage.countrySelect.nth(1).click()
+  await checkoutPage.submitButton.click()
+  await checkoutPage.navigatetoMyOrders()
+  const productID = await checkoutPage.productId.nth(2).textContent()
+  console.log(productID)
+  await myordersPage.myOrders.first().click()
+  await myordersPage.alltheOrders.waitFor()
+  await myordersPage.findMyorder(productID)
+  expect(myordersPage.orderSummary).toBeTruthy()
+
+})

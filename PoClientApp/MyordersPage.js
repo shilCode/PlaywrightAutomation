@@ -6,6 +6,7 @@ class MyordersPage{
     constructor(page, checkoutPage){
         this.page = page;
         this.checkoutPage = checkoutPage;
+        this.checkOut=page.locator("//button[contains(text(),'Checkout')]")
         this.myOrders = page.locator('[routerlink*="/myorders"]');
         this.alltheOrders = page.locator('tbody')
         this.orderTable = page.locator('tbody tr')
