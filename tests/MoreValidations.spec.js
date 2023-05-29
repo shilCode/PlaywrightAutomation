@@ -11,5 +11,4 @@ test('Popup validations', async({page})=>{
 
     await page.locator('#mousehover').hover()
 
-    await page.pause()
 })

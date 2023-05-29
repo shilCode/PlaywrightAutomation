@@ -1,42 +1,39 @@
-const {test, expect} = require('@playwright/test')
+const { test, expect,request } = require('@playwright/test');
+const loginPayload = {userEmail:"2850542@gmail.com",userPassword:"Password121!"}
 
-test('Register and Login', async({page})=>{
-    await page.goto('https://rahulshettyacademy.com/client/');
-    await page.locator('.text-reset').click()
-    await page.locator('#firstName').fill('Mohat')
-    await page.locator('#lastName').fill('shil')
-    await page.locator('#userEmail').fill('2850542@gmail.com')
-    await page.locator('#userMobile').fill('1234567891')
-    await page.locator('.custom-select').selectOption('Engineer')
-    await page.locator('[type="radio"]').nth(0).check()
-    await page.locator('#userPassword').fill("Password121!")
-    await page.locator('#confirmPassword').fill('Password121!')
-    await page.locator('[type="checkbox"]').check()
-    await page.locator('#login').click()
-    await page.locator('.text-reset').click()
-    await page.locator('#userEmail').fill('2850542@gmail.com')
-    await page.locator('#userPassword').fill('Password121!')
+      
+    
+  
+let token;
+let orderID;
 
-    //race condition
-    await Promise.all([
-         page.waitForSelector('.card-body b'),
-         page.locator('#login').click()
-    ])
-    
-    
-    const titles = await page.locator('.card-body b').allTextContents();
-    console.log(titles)
+test.beforeAll(async()=>{
+
+    //login API
+    const apicontext = await request.newContext()
+    const loginResponse = await apicontext.post("https://rahulshettyacademy.com/api/ecom/auth/login",{data:loginPayload})
+    expect(loginResponse.ok()).toBeTruthy()
+    const loginResponseJson = await loginResponse.json();
+    token = loginResponseJson.token;
+    console.log(token);
+
+
 
 })
 
 
-test.only('E2E flow', async({page})=>{
+test('E2E flow', async({page})=>{
+
+    await page.addInitScript(value=>{
+        window.localStorage.setItem('token',value);
+    },token);
+
     await page.goto('https://rahulshettyacademy.com/client/');
-    await page.locator('#userEmail').fill('2850542@gmail.com')
-    await page.locator('#userPassword').fill('Password121!')
-    await page.locator('#login').click()
-    await page.pause()
-    const products = await page.locator("div.card-body")
+    // await page.locator('#userEmail').fill('2850542@gmail.com')
+    // await page.locator('#userPassword').fill('Password121!')
+    // await page.locator('#login').click()
+    
+    const products =  page.locator("div.card-body")
     const productName = 'zara coat 3'
     
      await page.waitForLoadState('networkidle');
@@ -54,10 +51,12 @@ test.only('E2E flow', async({page})=>{
 
     await page.locator('[routerlink="/dashboard/cart"]').click()
     await page.waitForSelector('div li')
+   
     const bool = await page.locator("h3:has-text('zara coat 3')").isVisible()
     expect(bool).toBeTruthy()
 
     await page.locator('[type="button"]').last().click()
+    
 
     await page.locator('[class="input txt"]').first().fill('1111')
     await page.locator('[class="input txt"]').last().fill('mohat')
@@ -92,6 +91,6 @@ for(let i=0; i< await orderTable.count(); ++i){
     }
 }
  const orderSummary = await page.locator('[class="col-text -main"]').textContent()
- await expect(productID.includes(orderSummary)).toBeTruthy()
+expect(productID.includes(orderSummary)).toBeTruthy()
 
 })
