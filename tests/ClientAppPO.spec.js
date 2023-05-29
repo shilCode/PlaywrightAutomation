@@ -60,12 +60,11 @@ test('E2E flow', async ({ page }) => {
 
 })
 
-test.only('Local storage test login',async({browser})=>{
- 
-
+test('Local storage test login',async({browser})=>{
 
   const context = await browser.newContext({
-    storageState:'./auth.json'
+    storageState:'./auth.json',
+    
   });
   const page = await context.newPage();
 
@@ -78,7 +77,9 @@ test.only('Local storage test login',async({browser})=>{
 
   await loginPage.goTo()
 
-  
+  const productName = 'zara coat 3'
+  await dashboard.findProduct(productName)
+ 
   await dashboard.navigateToCart.click()
   await myordersPage.checkOut.click()
   await checkoutPage.cvvCode.first().fill('1111')
